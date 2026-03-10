@@ -1,0 +1,39 @@
+<%= form_with model: @product do |form| %>
+
+  <% if @product.errors.any? %>
+    <div class="error">
+      <% @product.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :price %>
+    <%= form.number_field :price %>
+  </div>
+
+  <div>
+  <label>Select Existing User</label>
+  <%= select_tag :user_id,
+        options_from_collection_for_select(@users || [], :id, :name, @selected_user_id),
+        prompt: "Choose User" %>
+</div>
+
+  <div>
+    <label>Select Subcategory</label>
+    <%= select_tag :subcategory_id,
+        options_from_collection_for_select(Subcategory.all, :id, :name),
+        prompt: "Choose Subcategory" %>
+  </div>
+
+  <div>
+    <%= form.submit "Create Product" %>
+  </div>
+
+<% end %>

@@ -1,0 +1,18 @@
+<h1>All Categories</h1>
+
+<%= link_to "Add New Category", new_category_path %>
+
+<table border="1" cellpadding="5">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Created At</th>
+  </tr>
+  <% @categories.each do |c| %>
+    <tr>
+      <td><%= c.id %></td>
+      <td><%= c.name %></td>
+      <td><%= c.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+    </tr>
+  <% end %>
+</table>

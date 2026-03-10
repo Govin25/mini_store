@@ -1,0 +1,21 @@
+<h1>All Subcategories</h1>
+
+<%= link_to "Add New Subcategory", new_subcategory_path %>
+
+<table border="1" cellpadding="5">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Created At</th>
+  </tr>
+
+  <% @subcategories.each do |s| %>
+    <tr>
+      <td><%= s.id %></td>
+      <td><%= s.name %></td>
+      <td><%= s.category.name if s.category %></td>
+      <td><%= s.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+    </tr>
+  <% end %>
+</table>

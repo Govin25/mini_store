@@ -1,0 +1,21 @@
+<h1>All Users</h1>
+
+<%= link_to "Sign Up", new_user_registration_path %>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Actions</th>
+  </tr>
+
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.name %></td>
+      <td>
+        <%= link_to "Show", user_path(user) %> |
+        |
+        <%= link_to "Delete", user_path(user), method: :delete, data: { confirm: "Are you sure?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>

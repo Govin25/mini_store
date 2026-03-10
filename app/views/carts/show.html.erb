@@ -1,0 +1,32 @@
+<h1>Your Cart</h1>
+
+<table border="1">
+
+<tr>
+<th>Product</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Remove</th>
+</tr>
+
+<% @cart_items.each do |item| %>
+
+<tr>
+
+<td><%= item.product.name %></td>
+
+<td><%= item.product.price %></td>
+
+<td><%= item.quantity %></td>
+
+<td>
+<%= button_to "Remove",
+cart_item_path(item),
+method: :delete %>
+</td>
+
+</tr>
+
+<% end %>
+
+</table>

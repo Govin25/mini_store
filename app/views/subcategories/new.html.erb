@@ -1,0 +1,25 @@
+<h2>New Subcategory</h2>
+
+<%= form_with(model: @subcategory) do |form| %>
+
+  <div>
+    <%= form.label :name, "Subcategory Name" %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.label :category_id, "Select Category" %><br>
+    <%= form.select :category_id,
+        @categories.map { |c| [c.name, c.id] },
+        prompt: "Choose Category" %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.submit "Create Subcategory" %>
+  </div>
+
+<% end %>
