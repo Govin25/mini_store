@@ -7,6 +7,10 @@
   <p><%= f.label :name %></p>
   <p><%= f.text_field :name %></p>
   </div>
+  <div>
+  <%= f.label :role %>
+  <%= f.select :role, User.roles.keys.map { |r| [r.titleize, r] } %>
+  </div>
 
   <div class="field">
     <p><%= f.label :email %></p>
