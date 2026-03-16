@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
  Rails.application.routes.draw do
 
+  
+
   # devise_for :users, path_names: { 
   #   sign_in: 'login', 
   #   sign_out: 'logout', 
@@ -16,6 +18,8 @@ Rails.application.routes.draw do
   resources :cart_items, only: [:create, :destroy]
 
   root "users#index"
+
+
 
 end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
