@@ -1,5 +1,8 @@
 <h1>New Product</h1>
 
-<%= render "form", product: @product %>
-
-<%= link_to "Cancel", products_path %>
+<% if user_signed_in? && current_user.supplier? %>
+  <%= render "form", product: @product %>
+  <%= link_to "Cancel", products_path %>
+<% else %>
+  <p>You are not authorized to create products.</p>
+<% end %>

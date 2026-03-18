@@ -1,14 +1,10 @@
 class CartItemsController < ApplicationController
 
+  before_action :check_customer
+
   def create
-
-
-    user = User.find(params[:user_id])
-
     product = Product.find(params[:product_id])
-
-    cart = user.cart
-
+    cart = current_user.cart
 
     cart_item = CartItem.find_by(cart_id: cart.id, product_id: product.id)
 
@@ -23,8 +19,15 @@ class CartItemsController < ApplicationController
       )
     end
 
-    redirect_to products_path
+    redirect_to products_path, notice: "Added to cart"
+  end
 
+  private
+
+  def check_customer
+    unless current_user.role == "customer"
+      redirect_to products_path, alert: "Only customers allowed!"
+    end
   end
 
 end
