@@ -1,5 +1,9 @@
 <h2>All Products</h2>
 
+<% if user_signed_in? && current_user.supplier? %>
+  <%= link_to "New Product", new_product_path %>
+<% end %>
+
 <% if @products.any? %>
 
 <table border="1">
@@ -10,7 +14,9 @@
 <th>User</th>
 <th>Subcategory</th>
 <th>Category</th>
-<th>Cart</th>
+<% if current_user.role == "customer" %>
+  <th>Actions</th>
+<% end %>
 </tr>
 
 <% @products.each do |product| %>
@@ -23,9 +29,20 @@
 <td><%= product.subcategory&.category&.name %></td>
 
 <td>
-<%= button_to "Add to Cart",
-    cart_items_path(user_id: User.first.id, product_id: product.id),
-    method: :post %>
+  <!-- customer can add to cart -->
+  <% if current_user.role == "customer" %>
+  <%= button_to "Add to Cart",
+      cart_items_path(user_id: current_user.id, product_id: product.id),
+      method: :post %>
+  <% end %>
+
+  <!-- Only supplier can edit/delete -->
+  <% if current_user.supplier? && product.user_id == current_user.id  %>
+    <br>
+    <%= link_to "Edit", edit_product_path(product) %>
+    <%= link_to "Delete", product, method: :delete, data: { confirm: "Are you sure?" } %>
+  <% end %>
+
 </td>
 
 </tr>

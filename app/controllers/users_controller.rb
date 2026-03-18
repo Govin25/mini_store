@@ -1,19 +1,20 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user, only: %i[show edit update destroy]
+  before_action :check_user_permission, only: [:show, :edit, :update, :destroy]
 
   def index
-    debugger
-    @users = User.all
+    @users = [ current_user ]
   end
 
   def show 
   end
 
-  # new/create optional if Devise handles signup
   def edit
   end 
 
   def update
+    
     if @user.update(user_params)
       redirect_to @user
     else
@@ -22,6 +23,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    
     @user.destroy
     redirect_to users_path
   end
@@ -38,5 +40,12 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name)
+  end
+
+  def check_user_permission
+    
+    return if @user.id == current_user.id
+    
+    redirect_to users_path, alert: "Not authorized!" and return
   end
 end
