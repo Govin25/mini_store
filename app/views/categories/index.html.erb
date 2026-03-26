@@ -1,18 +1,31 @@
 <h1>All Categories</h1>
 
-<%= link_to "Add New Category", new_category_path %>
+<% if current_user.supplier? %>
+  <%= link_to "Add New Category", new_category_path %>
+<% end %>
 
 <table border="1" cellpadding="5">
   <tr>
     <th>ID</th>
     <th>Name</th>
     <th>Created At</th>
+    <th>Actions</th> <!-- 👈 NEW -->
   </tr>
+
   <% @categories.each do |c| %>
     <tr>
       <td><%= c.id %></td>
       <td><%= c.name %></td>
       <td><%= c.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+
+      <td>
+        <% if c.user_id == current_user.id %>
+          <%= link_to "Edit", edit_category_path(c) %> |
+          <%= link_to "Delete", category_path(c), method: :delete, data: { confirm: "Are you sure?" } %>
+        <% else %>
+          -
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

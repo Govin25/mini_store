@@ -18,17 +18,13 @@
     <%= form.number_field :price %>
   </div>
 
-  <div>
-  <label>Select Existing User</label>
-  <%= select_tag :user_id,
-        options_from_collection_for_select(@users || [], :id, :name, @selected_user_id),
-        prompt: "Choose User" %>
-</div>
+  <!--  REMOVE user dropdown completely -->
 
+  <!--  Subcategory -->
   <div>
     <label>Select Subcategory</label>
     <%= select_tag :subcategory_id,
-        options_from_collection_for_select(Subcategory.all, :id, :name),
+        options_from_collection_for_select(@subcategories, :id, :name, @selected_subcategory_id),
         prompt: "Choose Subcategory" %>
   </div>
 

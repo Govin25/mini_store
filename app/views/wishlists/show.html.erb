@@ -1,0 +1,22 @@
+<h2>My Wishlist ❤️</h2>
+
+<% if @items.any? %>
+
+  <% @items.each do |item| %>
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+      
+      <p><strong><%= item.product.name %></strong></p>
+      <p>Price: <%= item.product.price %></p>
+
+      <%= button_to "Remove ❌",
+          wishlist_wishlist_item_path(item),
+          method: :delete %>
+
+    </div>
+  <% end %>
+
+<% else %>
+
+  <p>No items in wishlist</p>
+
+<% end %>

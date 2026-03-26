@@ -1,0 +1,25 @@
+<h1>Category Details</h1>
+
+<p>
+  <strong>ID:</strong>
+  <%= @category.id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @category.name %>
+</p>
+
+<p>
+  <strong>Created At:</strong>
+  <%= @category.created_at.strftime("%d-%m-%Y %H:%M") %>
+</p>
+
+<hr>
+
+<%= link_to "Back", categories_path %>
+
+<% if @category.user_id == current_user.id %>
+  | <%= link_to "Edit", edit_category_path(@category) %>
+  | <%= link_to "Delete", category_path(@category), method: :delete, data: { confirm: "Are you sure?" } %>
+<% end %>

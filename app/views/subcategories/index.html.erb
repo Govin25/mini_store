@@ -1,6 +1,8 @@
 <h1>All Subcategories</h1>
 
-<%= link_to "Add New Subcategory", new_subcategory_path %>
+<% if current_user.supplier? %>
+  <%= link_to "Add New Subcategory", new_subcategory_path %>
+<% end %>
 
 <table border="1" cellpadding="5">
   <tr>
@@ -8,6 +10,7 @@
     <th>Name</th>
     <th>Category</th>
     <th>Created At</th>
+    <th>Actions</th> <!-- 👈 NEW -->
   </tr>
 
   <% @subcategories.each do |s| %>
@@ -16,6 +19,15 @@
       <td><%= s.name %></td>
       <td><%= s.category.name if s.category %></td>
       <td><%= s.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+
+      <td>
+        <% if  s.user_id == current_user.id %>
+          <%= link_to "Edit", edit_subcategory_path(s) %> |
+          <%= link_to "Delete", subcategory_path(s), method: :delete, data: { confirm: "Are you sure?" } %>
+        <% else %>
+          -
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>
