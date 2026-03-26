@@ -1,6 +1,6 @@
 <h2>All Products</h2>
 
-<% if user_signed_in? && current_user.supplier? %>
+<% if current_user.supplier?  %>
   <%= link_to "New Product", new_product_path %>
 <% end %>
 
@@ -14,9 +14,11 @@
 <th>User</th>
 <th>Subcategory</th>
 <th>Category</th>
-<% if current_user.role == "customer" %>
+
+<% if current_user.customer? || current_user.supplier? %>
   <th>Actions</th>
 <% end %>
+
 </tr>
 
 <% @products.each do |product| %>
@@ -29,18 +31,37 @@
 <td><%= product.subcategory&.category&.name %></td>
 
 <td>
-  <!-- customer can add to cart -->
-  <% if current_user.role == "customer" %>
-  <%= button_to "Add to Cart",
-      cart_items_path(user_id: current_user.id, product_id: product.id),
-      method: :post %>
+
+  <% if current_user.customer? %>
+
+    <!-- Add to Cart -->
+    <%= button_to "Add to Cart",
+        cart_items_path(product_id: product.id),
+        method: :post %>
+
+    <br>
+
+    <!-- Wishlist Logic -->
+    <% wishlist = current_user.wishlist %>
+    <% item = wishlist&.wishlist_items&.find_by(product_id: product.id) %>
+
+    <% if item %>
+      <%= button_to "❌ Remove from Wishlist",
+          wishlist_wishlist_item_path(item),
+          method: :delete %>
+    <% else %>
+      <%= button_to "❤️ Add to Wishlist",
+          wishlist_wishlist_items_path(product_id: product.id),
+          method: :post %>
+    <% end %>
+
   <% end %>
 
-  <!-- Only supplier can edit/delete -->
-  <% if current_user.supplier? && product.user_id == current_user.id  %>
+  <!-- ✅ Supplier/Admin: Edit/Delete -->
+  <% if current_user.supplier? && product.user_id == current_user.id %>
     <br>
-    <%= link_to "Edit", edit_product_path(product) %>
-    <%= link_to "Delete", product, method: :delete, data: { confirm: "Are you sure?" } %>
+    <%= link_to "Edit", edit_product_path(product) %> |
+    <%= link_to "Delete", product_path(product), method: :delete, data: { confirm: "Are you sure?" } %>
   <% end %>
 
 </td>
@@ -57,23 +78,28 @@
 
 <% end %>
 
+<hr>
 
 <h2>Your Cart</h2>
 
-<% if @cart_items.present? %>
+<% if current_user.customer? %>
 
-  <% @cart_items.each do |item| %>
+  <% if @cart_items.present? %>
 
-    <p>
-    Product: <%= item.product.name %> <br>
-    Price: <%= item.product.price %> <br>
-    Quantity: <%= item.quantity %>
-    </p>
+    <% @cart_items.each do |item| %>
+
+      <p>
+      Product: <%= item.product.name %> <br>
+      Price: <%= item.product.price %> <br>
+      Quantity: <%= item.quantity %>
+      </p>
+
+    <% end %>
+
+  <% else %>
+
+    <p>Cart is empty</p>
 
   <% end %>
-
-<% else %>
-
-<p>Cart is empty</p>
 
 <% end %>

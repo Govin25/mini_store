@@ -4,22 +4,19 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
-
-  enum :role, { customer: 0, supplier: 1 }
+    enum :role, { customer: 0, supplier: 1 }
 
 
     has_one :cart
     has_many :products
-
-   
-
+    has_many :categories
+    has_many :subcategories
+    has_one :wishlist, dependent: :destroy
     after_create :create_user_cart
-
-
+    
+    
     private
-
     def create_user_cart
-        Cart.create(user_id: self.id)
-
+      Cart.create(user_id: self.id)
     end
 end

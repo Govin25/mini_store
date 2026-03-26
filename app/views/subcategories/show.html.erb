@@ -1,0 +1,30 @@
+<h1>Subcategory Details</h1>
+
+<p>
+  <strong>ID:</strong>
+  <%= @subcategory.id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @subcategory.name %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @subcategory.category.name if @subcategory.category %>
+</p>
+
+<p>
+  <strong>Created At:</strong>
+  <%= @subcategory.created_at.strftime("%d-%m-%Y %H:%M") %>
+</p>
+
+<hr>
+
+<%= link_to "Back", subcategories_path %>
+
+<% if current_user.admin? || @subcategory.user_id == current_user.id %>
+  | <%= link_to "Edit", edit_subcategory_path(@subcategory) %>
+  | <%= link_to "Delete", subcategory_path(@subcategory), method: :delete, data: { confirm: "Are you sure?" } %>
+<% end %>
